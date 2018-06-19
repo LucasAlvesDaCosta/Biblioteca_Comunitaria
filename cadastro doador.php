@@ -18,7 +18,7 @@ $email  = "";
 $livro_doado = "";
 $telefone     = "";
  
-if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["livro doado"]) && isset($_POST["telefone"]))
+if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["livro_doado"]) && isset($_POST["telefone"]))
 {
 	if(empty($_POST["nome"]))
 		$erro = "Campo nome obrigatório";
@@ -30,7 +30,7 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["livro doado"
 		$id     = $_POST["id"];		
 		$nome   = $_POST["nome"];
 		$email  = $_POST["email"];
-		$livro_doado = $_POST["livro doado"];
+		$livro_doado = $_POST["livro_doado"];
 		$telefone    = $_POST["telefone"];
 			
 		if($id == -1)
@@ -95,8 +95,8 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 		
 		$nome = $aux_query["Nome"];
 		$email = $aux_query["Email"];
-		$cidade = $aux_query["Livro doado"];
-		$uf = $aux_query["Telefone"];
+		$livro_doado = $aux_query["Livro_doado"];
+		$telefone = $aux_query["Telefone"];
 		
 		$stmt->close();		
 	}
@@ -105,7 +105,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 <!DOCTYPE html>
 <html>
   <head>
-	<title>CRUD com PHP, de forma simples e fácil</title>
+	<title>Cadastro doador</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -189,12 +189,15 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 					
 					<label for="example-text-input" class="col-xs-2 col-form-label">Nome</label>
 					<input class="form-control" name="nome" type="text" placeholder="Qual seu nome?" value="<?=$nome?>" >
+
 					<label for="example-text-input" class="col-xs-2 col-form-label">Email</label>
 					<input class="form-control" name="email" type="email" placeholder="email@example.com" value="<?=$email?>" >
+
 					<label for="example-email-input" class="col-xs-2 col-form-label">Livro doado</label>
-					<input class="form-control" name="cidade" type="text" placeholder="Exemplo: Cartas para Julieta" value="<?=$cidade?>" >
+					<input class="form-control" name="livro_doado" type="text" placeholder="Exemplo: Cartas para Julieta" value="<?=$livro_doado?>" >
+
 					<label for="example-url-input" class="col-xs-2 col-form-label">Telefone</label>
-					<input class="form-control" name="uf" maxlength="2" type="text"placeholder="Exemplo: (DDD) 99999-9999" value="<?=$uf?>" >
+					<input class="form-control" name="telefone" maxlength="15" type="text"placeholder="Exemplo: (DDD) 99999-9999" value="<?=$telefone?>" >
 					<br>
 					<br>
 					<input type="hidden" value="<?=$id?>" name="id">
@@ -229,7 +232,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 					echo '  <td>'.$aux_query["Id"].'</td>';
 					echo '  <td>'.$aux_query["Nome"].'</td>';
 					echo '  <td>'.$aux_query["Email"].'</td>';
-					echo '  <td>'.$aux_query["Livro Doado"].'</td>';
+					echo '  <td>'.$aux_query["Livro_doado"].'</td>';
 					echo '  <td>'.$aux_query["Telefone"].'</td>';
 					echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'">Editar</a></td>';
 					echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'&del=true">Excluir</a></td>';
