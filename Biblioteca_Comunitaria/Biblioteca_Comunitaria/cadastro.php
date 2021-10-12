@@ -105,7 +105,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 <!DOCTYPE html>
 <html>
   <head>
-	<title>Usuários - cadastro</title>
+	<title>CRUD com PHP, de forma simples e fácil</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -116,20 +116,56 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
   </head>
   <body>
   <nav id="nav-bar" class="navbar navbar-expand-md navbar-light fixed-top">
-      <h3>Biblioteca Comunitária - cadastre um leitor!</h3>
+      <div class="container">
+
+        <a class="navbar-brand" href="index.html">
+          <img class="logo" src="img/logo.png">
+        </a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
+        
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!--<ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Clubes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Regulamento</a>
+            </li>
+          </ul>-->
+          <form class="form-inline">
+            <input class="form-control" type="text" placeholder="Buscar">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Pesquisar</button>
+          </form>
+
           <div class="ml-auto">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="home.html">Home-page</a>
-							</li>
-							<li class="nav-item">
-                <a class="nav-link" href="Busca_cliente.html">Procurar Usuários</a>
+                <a class="nav-link" href="login.html">Login</a>
               </li>
-             
+              <li class="nav-item">
+                <a class="nav-link" href="cadastro.html">Cadastrar</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="atendimento.html">Atendimento</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Perfil
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Meus Pedidos</a>
+                  <a class="dropdown-item" href="#">Carrinho de Compras</a>
+                  <a class="dropdown-item" href="#">Sair</a>
+                </div>
+              </li>
             </ul>
           </div><!-- /ml-auto -->
 
@@ -173,7 +209,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 			<br>
 			<br>
 			<br>
-
+			
 
 					<table class="table table-striped table-bordered table-condensed table-hover" width="450px" border="3" cellspacing="1">
 					<tr>
@@ -185,7 +221,6 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 						<td><strong>Editar</strong></td>
 						<td><strong>Excluir</strong></td>
 					</tr>
-					<h4> Usuários - (Clientes) da Biblioteca.</h4>
 					<?php
 					$result = $obj_mysqli->query("SELECT * FROM `cliente`");
 					while ($aux_query = $result->fetch_assoc()) 

@@ -1,0 +1,31 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Busca por livros</title>
+     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.quicksearch/2.3.1/jquery.quicksearch.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+     
+<head>
+
+</head>
+
+<body>      
+       
+    <h1>Procurar livros</h1>
+    <form method="POST" action="pesquisar.php">
+        Pesquisar:<input  type="search" name="pesquisar" placeholder=" Titulo, autor, Categoria">
+        Tipo:<select name="select">
+            <option value="Titulo">Titulo</option> 
+            <option value="Autor" selected>Autor</option>
+            <option value="Categoria"> Categoria</option>
+            <option value="ISBN"> ISBN</option>
+          </select>
+          <button type="submit">&#128269;</button>
+    </form>
+
+</body>
+</html>

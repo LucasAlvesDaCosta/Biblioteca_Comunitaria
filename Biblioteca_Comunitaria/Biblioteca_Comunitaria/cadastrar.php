@@ -67,7 +67,12 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["password"]))
   </head>
   <body>
   <nav id="nav-bar" class="navbar navbar-expand-md navbar-light fixed-top">
-     <h1>Biblioteca comunitária - Cadastre-se!</h1>
+      <div class="container">
+
+        <a class="navbar-brand" href="index.html">
+          <img class="logo" src="img/logo.png">
+        </a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -75,10 +80,42 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["password"]))
         
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!--<ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Clubes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Regulamento</a>
+            </li>
+          </ul>-->
+          <form class="form-inline">
+            <input class="form-control" type="text" placeholder="Buscar">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Pesquisar</button>
+          </form>
+
           <div class="ml-auto">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="home.html">Home-page</a>
+                <a class="nav-link" href="login.html">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="cadastro.html">Cadastrar</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="atendimento.html">Atendimento</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Perfil
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Meus Pedidos</a>
+                  <a class="dropdown-item" href="#">Carrinho de Compras</a>
+                  <a class="dropdown-item" href="#">Sair</a>
+                </div>
               </li>
             </ul>
           </div><!-- /ml-auto -->

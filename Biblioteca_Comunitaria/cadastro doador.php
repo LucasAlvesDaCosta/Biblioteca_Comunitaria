@@ -15,10 +15,10 @@ mysqli_set_charset($obj_mysqli, 'utf8');
 $id     = -1;
 $nome   = "";
 $email  = "";
-$cidade = "";
-$uf     = "";
+$livro_doado = "";
+$telefone     = "";
  
-if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["cidade"]) && isset($_POST["uf"]))
+if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["livro_doado"]) && isset($_POST["telefone"]))
 {
 	if(empty($_POST["nome"]))
 		$erro = "Campo nome obrigatório";
@@ -30,13 +30,13 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["cidade"]) &&
 		$id     = $_POST["id"];		
 		$nome   = $_POST["nome"];
 		$email  = $_POST["email"];
-		$cidade = $_POST["cidade"];
-		$uf     = $_POST["uf"];
+		$livro_doado = $_POST["livro_doado"];
+		$telefone    = $_POST["telefone"];
 			
 		if($id == -1)
 		{
-			$stmt = $obj_mysqli->prepare("INSERT INTO `cliente` (`nome`,`email`,`cidade`,`uf`) VALUES (?,?,?,?)");
-			$stmt->bind_param('ssss', $nome, $email, $cidade, $uf);	
+			$stmt = $obj_mysqli->prepare("INSERT INTO `doador` (`nome`,`email`,`livro_doado`,`telefone`) VALUES (?,?,?,?)");
+			$stmt->bind_param('ssss', $nome, $email, $livro_doado, $telefone);	
 		
 			if(!$stmt->execute())
 			{
@@ -44,15 +44,15 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["cidade"]) &&
 			}
 			else
 			{
-				header("Location:cadastro.php");
+				header("Location:cadastro doador.php");
 				exit;
 			}
 		}
 		else
 		if(is_numeric($id) && $id >= 1)
 		{
-			$stmt = $obj_mysqli->prepare("UPDATE `cliente` SET `nome`=?, `email`=?, `cidade`=?, `uf`=? WHERE id = ? ");
-			$stmt->bind_param('ssssi', $nome, $email, $cidade, $uf, $id);
+			$stmt = $obj_mysqli->prepare("UPDATE `doador` SET `nome`=?, `email`=?, `livro_doado`=?, `telefone`=? WHERE id = ? ");
+			$stmt->bind_param('ssssi', $nome, $email, $livro_doado, $telefone, $id);
 		
 			if(!$stmt->execute())
 			{
@@ -60,7 +60,7 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["cidade"]) &&
 			}
 			else
 			{
-				header("Location:cadastro.php");
+				header("Location:cadastro doador.php");
 				exit;
 			}
 		}
@@ -77,16 +77,16 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 	
 	if(isset($_GET["del"]))
 	{
-		$stmt = $obj_mysqli->prepare("DELETE FROM `cliente` WHERE id = ?");
+		$stmt = $obj_mysqli->prepare("DELETE FROM `doador` WHERE id = ?");
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		
-		header("Location:cadastro.php");
+		header("Location:cadastro doador.php");
 		exit;
 	}
 	else
 	{
-		$stmt = $obj_mysqli->prepare("SELECT * FROM `cliente` WHERE id = ?");
+		$stmt = $obj_mysqli->prepare("SELECT * FROM `doador` WHERE id = ?");
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		
@@ -95,8 +95,8 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 		
 		$nome = $aux_query["Nome"];
 		$email = $aux_query["Email"];
-		$cidade = $aux_query["Cidade"];
-		$uf = $aux_query["UF"];
+		$livro_doado = $aux_query["Livro_doado"];
+		$telefone = $aux_query["Telefone"];
 		
 		$stmt->close();		
 	}
@@ -105,7 +105,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 <!DOCTYPE html>
 <html>
   <head>
-	<title>Usuários - cadastro</title>
+	<title>Cadastro doador</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -116,20 +116,19 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
   </head>
   <body>
   <nav id="nav-bar" class="navbar navbar-expand-md navbar-light fixed-top">
-      <h3>Biblioteca Comunitária - cadastre um leitor!</h3>
+       <h4>Biblioteca Comunitária</h4>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
           <div class="ml-auto">
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="home.html">Home-page</a>
-							</li>
-							<li class="nav-item">
-                <a class="nav-link" href="Busca_cliente.html">Procurar Usuários</a>
               </li>
-             
+              <li class="nav-item">
+                <a class="nav-link" href="Busca_cliente.html">Procurar por usuários</a>
+              </li>
+              
             </ul>
           </div><!-- /ml-auto -->
 
@@ -152,13 +151,17 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 					
 					
 					<label for="example-text-input" class="col-xs-2 col-form-label">Nome</label>
-					<input class="form-control" name="nome" type="text" placeholder="Qual seu nome?" value="<?=$nome?>" >
+					<input class="form-control" name="nome" type="text" placeholder="Qual nome?" value="<?=$nome?>" >
+
 					<label for="example-text-input" class="col-xs-2 col-form-label">Email</label>
 					<input class="form-control" name="email" type="email" placeholder="email@example.com" value="<?=$email?>" >
-					<label for="example-email-input" class="col-xs-2 col-form-label">Cidade</label>
-					<input class="form-control" name="cidade" type="text" placeholder="Exemplo: São Paulo" value="<?=$cidade?>" >
-					<label for="example-url-input" class="col-xs-2 col-form-label">Estado</label>
-					<input class="form-control" name="uf" maxlength="2" type="text"placeholder="Exemplo: GO" value="<?=$uf?>" >
+
+					<label for="example-email-input" class="col-xs-2 col-form-label">Primeiro Livro doado</label>
+					<input class="form-control" name="livro_doado" type="text" placeholder="Exemplo: Cartas para Julieta" value="<?=$livro_doado?>" >
+
+					<label for="example-url-input" class="col-xs-2 col-form-label">Telefone</label>
+					<input class="form-control" name="telefone" maxlength="15" type="text" data-format="+55 (ddd) ddd-dddd" placeholder="Exemplo: (DDD) 99999-9999" value="<?=$telefone?>" >
+		
 					<br>
 					<br>
 					<input type="hidden" value="<?=$id?>" name="id">
@@ -173,29 +176,28 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 			<br>
 			<br>
 			<br>
-
-
+			
+              <h4>Lista de Doadores cadastrados</h4>
 					<table class="table table-striped table-bordered table-condensed table-hover" width="450px" border="3" cellspacing="1">
 					<tr>
 						<td><strong>id</strong></td>
 						<td><strong>Nome:</strong></td>
-						<td><strong>E-m@il:</strong></td>
-						<td><strong>Cidade:</strong></td>
-						<td><strong>UF:</strong></td>
+						<td><strong>E-mail:</strong></td>
+						<td><strong>Primeiro Livro Doado:</strong></td>
+						<td><strong>Telefone:</strong></td>
 						<td><strong>Editar</strong></td>
 						<td><strong>Excluir</strong></td>
 					</tr>
-					<h4> Usuários - (Clientes) da Biblioteca.</h4>
 					<?php
-					$result = $obj_mysqli->query("SELECT * FROM `cliente`");
+					$result = $obj_mysqli->query("SELECT * FROM `doador`");
 					while ($aux_query = $result->fetch_assoc()) 
 					{
 					echo '<tr>';
 					echo '  <td>'.$aux_query["Id"].'</td>';
 					echo '  <td>'.$aux_query["Nome"].'</td>';
 					echo '  <td>'.$aux_query["Email"].'</td>';
-					echo '  <td>'.$aux_query["Cidade"].'</td>';
-					echo '  <td>'.$aux_query["UF"].'</td>';
+					echo '  <td>'.$aux_query["Livro_doado"].'</td>';
+					echo '  <td>'.$aux_query["Telefone"].'</td>';
 					echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'">Editar</a></td>';
 					echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'&del=true">Excluir</a></td>';
 					echo '</tr>';

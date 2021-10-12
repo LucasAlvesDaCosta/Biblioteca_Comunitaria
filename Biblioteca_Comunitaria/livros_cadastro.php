@@ -13,30 +13,39 @@ if ($obj_mysqli->connect_errno)
  
 mysqli_set_charset($obj_mysqli, 'utf8');
 $id     = -1;
-$nome   = "";
-$email  = "";
-$cidade = "";
-$uf     = "";
+$titulo   = "";
+$autor  = "";
+$editora = "";
+$isbn     = "";
+$categoria = "";
+
  
-if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["cidade"]) && isset($_POST["uf"]))
+if(isset($_POST["titulo"]) && isset($_POST["autor"]) && isset($_POST["editora"]) && isset($_POST["isbn"]) && isset($_POST["categoria"]))
 {
-	if(empty($_POST["nome"]))
+	if(empty($_POST["titulo"]))
 		$erro = "Campo nome obrigatório";
 	else
-	if(empty($_POST["email"]))
-		$erro = "Campo e-mail obrigatório";
+	if(empty($_POST["categoria"]))
+		$erro = "Campo obrigatório";
 	else
+	 if(empty($_POST["editora"]))
+		$erro = "Campo obrigatório";
+		else
+		if(empty($_POST["isbn"]))
+		$erro = "Campo ISBN obrigatório";
+else
 	{
 		$id     = $_POST["id"];		
-		$nome   = $_POST["nome"];
-		$email  = $_POST["email"];
-		$cidade = $_POST["cidade"];
-		$uf     = $_POST["uf"];
+		$titulo   = $_POST["titulo"];
+		$autor  = $_POST["autor"];
+		$editora = $_POST["editora"];
+    $isbn     = $_POST["isbn"];
+    $categoria = $_POST["categoria"];
 			
 		if($id == -1)
 		{
-			$stmt = $obj_mysqli->prepare("INSERT INTO `cliente` (`nome`,`email`,`cidade`,`uf`) VALUES (?,?,?,?)");
-			$stmt->bind_param('ssss', $nome, $email, $cidade, $uf);	
+			$stmt = $obj_mysqli->prepare("INSERT INTO `livros` (`titulo`,`autor`,`editora`,`isbn`,`categoria`) VALUES (?,?,?,?,?)");
+			$stmt->bind_param('ssiss', $titulo, $autor, $editora, $isbn, $categoria);	
 		
 			if(!$stmt->execute())
 			{
@@ -44,15 +53,15 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["cidade"]) &&
 			}
 			else
 			{
-				header("Location:cadastro.php");
+				header("Location:livros_cadastro.php");
 				exit;
 			}
 		}
 		else
 		if(is_numeric($id) && $id >= 1)
 		{
-			$stmt = $obj_mysqli->prepare("UPDATE `cliente` SET `nome`=?, `email`=?, `cidade`=?, `uf`=? WHERE id = ? ");
-			$stmt->bind_param('ssssi', $nome, $email, $cidade, $uf, $id);
+			$stmt = $obj_mysqli->prepare("UPDATE `livros` SET `titulo`=?, `autor`=?, `editora`=?, `isbn`=?, `categoria`=? WHERE id = ? ");
+			$stmt->bind_param('ssissi', $titulo, $autor, $editora, $isbn,$categoria, $id);
 		
 			if(!$stmt->execute())
 			{
@@ -60,7 +69,7 @@ if(isset($_POST["nome"]) && isset($_POST["email"]) && isset($_POST["cidade"]) &&
 			}
 			else
 			{
-				header("Location:cadastro.php");
+				header("Location:livros_cadastro.php");
 				exit;
 			}
 		}
@@ -77,26 +86,27 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 	
 	if(isset($_GET["del"]))
 	{
-		$stmt = $obj_mysqli->prepare("DELETE FROM `cliente` WHERE id = ?");
+		$stmt = $obj_mysqli->prepare("DELETE FROM `livros` WHERE id = ?");
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		
-		header("Location:cadastro.php");
+		header("Location:livros_cadastro.php");
 		exit;
 	}
 	else
 	{
-		$stmt = $obj_mysqli->prepare("SELECT * FROM `cliente` WHERE id = ?");
+		$stmt = $obj_mysqli->prepare("SELECT * FROM `livros` WHERE id = ?");
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
 		$aux_query = $result->fetch_assoc();
 		
-		$nome = $aux_query["Nome"];
-		$email = $aux_query["Email"];
-		$cidade = $aux_query["Cidade"];
-		$uf = $aux_query["UF"];
+		$titulo = $aux_query["Titulo"];
+		$autor = $aux_query["Autor"];
+		$editora = $aux_query["Editora"];
+        $isbn = $aux_query["Isbn"];
+        $categoria = $aux_query["Categoria"];
 		
 		$stmt->close();		
 	}
@@ -105,7 +115,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 <!DOCTYPE html>
 <html>
   <head>
-	<title>Usuários - cadastro</title>
+	<title>Livros e doações</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -116,20 +126,23 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
   </head>
   <body>
   <nav id="nav-bar" class="navbar navbar-expand-md navbar-light fixed-top">
-      <h3>Biblioteca Comunitária - cadastre um leitor!</h3>
+      <h4>Biblioteca Comunitária</h4>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
+        
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <div class="ml-auto">
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="home.html">Home-page</a>
-							</li>
-							<li class="nav-item">
-                <a class="nav-link" href="Busca_cliente.html">Procurar Usuários</a>
               </li>
-             
+              <li class="nav-item">
+                <a class="nav-link" href="Busca.html">Procurar Livros</a>
+              </li>
+              
             </ul>
           </div><!-- /ml-auto -->
 
@@ -151,14 +164,20 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 					
 					
 					
-					<label for="example-text-input" class="col-xs-2 col-form-label">Nome</label>
-					<input class="form-control" name="nome" type="text" placeholder="Qual seu nome?" value="<?=$nome?>" >
-					<label for="example-text-input" class="col-xs-2 col-form-label">Email</label>
-					<input class="form-control" name="email" type="email" placeholder="email@example.com" value="<?=$email?>" >
-					<label for="example-email-input" class="col-xs-2 col-form-label">Cidade</label>
-					<input class="form-control" name="cidade" type="text" placeholder="Exemplo: São Paulo" value="<?=$cidade?>" >
-					<label for="example-url-input" class="col-xs-2 col-form-label">Estado</label>
-					<input class="form-control" name="uf" maxlength="2" type="text"placeholder="Exemplo: GO" value="<?=$uf?>" >
+					<label for="example-text-input" class="col-xs-2 col-form-label">Titulo</label>
+					<input class="form-control" name="titulo" type="text" placeholder="title" value="<?=$titulo?>" >
+
+					<label for="example-text-input" class="col-xs-2 col-form-label">Autor</label>
+					<input class="form-control" name="autor" type="text" placeholder="Nome do autor" value="<?=$autor?>" >
+
+					<label for="example-email-input" class="col-xs-2 col-form-label">Cod. identificação Doador</label>
+					<input class="form-control" name="editora" type="number" placeholder="Código de identificação do doador" value="<?=$editora?>" >
+
+					<label for="example-url-input" class="col-xs-2 col-form-label">ISBN</label>
+					<input class="form-control" name="isbn" type="text" maxlength="13" placeholder="código ISBN" value="<?=$isbn?>" >
+
+                    <label for="example-url-input" class="col-xs-2 col-form-label">Categoria</label>
+					<input class="form-control" name="categoria" type="text"placeholder="Terror, Drama, Aventura, Material de estudo" value="<?=$categoria?>" >
 					<br>
 					<br>
 					<input type="hidden" value="<?=$id?>" name="id">
@@ -174,28 +193,32 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 			<br>
 			<br>
 
+                    <div class="page-header">
+                        <h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Livros.<br><br> <small>Lista de todos os livros da biblioteca.</small> </h1>
+                    </div>
 
 					<table class="table table-striped table-bordered table-condensed table-hover" width="450px" border="3" cellspacing="1">
 					<tr>
 						<td><strong>id</strong></td>
-						<td><strong>Nome:</strong></td>
-						<td><strong>E-m@il:</strong></td>
-						<td><strong>Cidade:</strong></td>
-						<td><strong>UF:</strong></td>
+						<td><strong>Titulo:</strong></td>
+						<td><strong>Autor(a):</strong></td>
+						<td><strong>Doador:</strong></td>
+						<td><strong>Isbn:</strong></td>
+                        <td><strong>Categoria:</strong></td>
 						<td><strong>Editar</strong></td>
 						<td><strong>Excluir</strong></td>
 					</tr>
-					<h4> Usuários - (Clientes) da Biblioteca.</h4>
 					<?php
-					$result = $obj_mysqli->query("SELECT * FROM `cliente`");
+					$result = $obj_mysqli->query("SELECT * FROM `livros`");
 					while ($aux_query = $result->fetch_assoc()) 
 					{
 					echo '<tr>';
 					echo '  <td>'.$aux_query["Id"].'</td>';
-					echo '  <td>'.$aux_query["Nome"].'</td>';
-					echo '  <td>'.$aux_query["Email"].'</td>';
-					echo '  <td>'.$aux_query["Cidade"].'</td>';
-					echo '  <td>'.$aux_query["UF"].'</td>';
+					echo '  <td>'.$aux_query["Titulo"].'</td>';
+					echo '  <td>'.$aux_query["Autor"].'</td>';
+					echo '  <td>'.$aux_query["Editora"].'</td>';//Referece ao ID do doador
+          echo '  <td>'.$aux_query["Isbn"].'</td>';
+          echo '  <td>'.$aux_query["Categoria"].'</td>';
 					echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'">Editar</a></td>';
 					echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'&del=true">Excluir</a></td>';
 					echo '</tr>';

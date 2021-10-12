@@ -1,0 +1,15 @@
+Na pagina Home:
+Cadastro de Usuários = cadastro.php
+Cadastro de Doadores = cadastro doador.php
+Cadastro de servidores = cadastroServidor.php
+
+Login:
+- Auth.html
+cadastre-se:(Como servidor)
+- cadastrar.php
+
+Cadastrar Livros:
+- livros_cadastro.php
+
+Realizar Emprestimo:
+ - emprestimo.php

@@ -1,0 +1,30 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Busca por Emprestimos</title>
+     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+      <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.quicksearch/2.3.1/jquery.quicksearch.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+     
+<head>
+
+</head>
+
+<body>      
+       
+    <h1>Pesquisar por Emprestimos</h1>
+    <form method="POST" action="pesquisar_emprestimo.php">
+        Pesquisar:<input  type="search" name="pesquisar" placeholder=" ..... ">
+        Tipo:<select name="select">
+            <option value="Nome">Nome do Cliente</option> 
+            <option value="Titulo" selected>Titulo do Livro</option>
+            <option value="Data">Data de imprestimo</option>
+          </select>
+          <button type="submit">&#128269;</button>
+    </form>
+
+</body>
+</html>

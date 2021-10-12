@@ -117,19 +117,56 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
   </head>
   <body>
   <nav id="nav-bar" class="navbar navbar-expand-md navbar-light fixed-top">
-        <h4>Biblioteca Comunitária</h4>
+      <div class="container">
+
+        <a class="navbar-brand" href="index.html">
+          <img class="logo" src="img/logo.png">
+        </a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
+        
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!--<ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Clubes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Regulamento</a>
+            </li>
+          </ul>-->
+          <form class="form-inline">
+            <input class="form-control" type="text" placeholder="Buscar">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Pesquisar</button>
+          </form>
+
           <div class="ml-auto">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="home.html">Home</a>
+                <a class="nav-link" href="login.html">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="Busca_servidor.html">Procurar por Servidores</a>
-              </li> 
+                <a class="nav-link" href="cadastro.html">Cadastrar</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="atendimento.html">Atendimento</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Perfil
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Meus Pedidos</a>
+                  <a class="dropdown-item" href="#">Carrinho de Compras</a>
+                  <a class="dropdown-item" href="#">Sair</a>
+                </div>
+              </li>
             </ul>
           </div><!-- /ml-auto -->
 
@@ -163,12 +200,7 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
 				</div>
 			</form>
 	<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
+    <br>
 	<!--Esta parte pode está contida em um arquivo separado -->
 	<div class="page-header">
     <h1>&nbsp;Servidores.<br><br> <small>Lista referente a todos os funcionários da biblioteca.</small> </h1>
@@ -185,23 +217,15 @@ if(isset($_GET["id"]) && is_numeric($_GET["id"]))
       </tr>
       	<?php
 	$result = $obj_mysqli->query("SELECT * FROM `servidor`");
-	while ($aux_query = $result->fetch_assoc())
+	while ($aux_query = $result->fetch_assoc()) 
     {
 	  echo '<tr>';
 	  echo '  <td>'.$aux_query["Id"].'</td>';
 	  echo '  <td>'.$aux_query["Nome"].'</td>';
 	  echo '  <td>'.$aux_query["Email"].'</td>';
-		echo '  <td>'.$aux_query["password"].'</td>';
+	  echo '  <td>'.$aux_query["password"].'</td>';
       echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'">Editar</a></td>';
       echo '  <td><a href="'.$_SERVER["PHP_SELF"].'?id='.$aux_query["Id"].'&del=true">Excluir</a></td>';
-	  echo '</tr>';
-	}
-	
-	$result= $obj_mysqli->query("SELECT SUM(`Id`) FROM `servidor`");
-	while ($aux_query = $result->fetch_assoc())
-    {
-	  echo '<tr>';
-	  echo '  <td>'.$aux_query["Id"].'</td>';
 	  echo '</tr>';
 	}
     ?>
